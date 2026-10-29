@@ -1,7 +1,7 @@
-import home from "./pages/home";
 import about from "./pages/about";
+import home from "./pages/home";
 
-type Page = () => string;
+type Page = () => string | Promise<string>;
 
 const routes: Record<string, Page> = {
   "/": home,
@@ -14,7 +14,11 @@ if (!app) {
   throw new Error("App element not found");
 }
 
-const path = window.location.pathname;
-const page = routes[path];
+const render = async (): Promise<void> => {
+  const path = window.location.pathname;
+  const page = routes[path];
 
-app.innerHTML = page ? page() : "<h1>404 - Page Not Found</h1>";
+  app.innerHTML = page ? await page() : "<h1>404 - Page Not Found</h1>";
+};
+
+render();

@@ -9,6 +9,11 @@ export const turso = {
     return db.batch(statements, "write");
   },
 
+  async Get(tableName: string) {
+    const result = await db.execute({ sql: `SELECT * FROM ${tableName}` });
+    return result.rows;
+  },
+
   async close() {
     await db.close();
   },
